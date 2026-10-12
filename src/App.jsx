@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import QuoteModal from './components/QuoteModal';
+import LogoLoader from './components/LogoLoader';
+import LiveChatWidget from './components/LiveChatWidget';
 
 // Pages
 import Home from './pages/Home';
@@ -30,6 +32,9 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      {/* Initial Animated Logo Loader */}
+      <LogoLoader />
+
       <ScrollToTop />
       <div className="min-h-screen bg-[#0b0f19] text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
         
@@ -51,6 +56,9 @@ export default function App() {
 
         {/* Footer */}
         <Footer onOpenQuote={handleOpenQuote} />
+
+        {/* Floating Chat Support Widget (+923172768613 & info@ocp.com) */}
+        <LiveChatWidget onOpenQuote={handleOpenQuote} />
 
         {/* Interactive Proposal Modal */}
         <QuoteModal isOpen={isQuoteOpen} onClose={handleCloseQuote} />

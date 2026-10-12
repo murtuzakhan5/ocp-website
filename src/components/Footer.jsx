@@ -42,15 +42,15 @@ export default function Footer({ onOpenQuote }) {
           
           {/* Col 1: Brand & Global Footprint */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 p-0.5">
-                <div className="w-full h-full bg-[#0b0f19] rounded-[10px] flex items-center justify-center">
-                  <ShieldCheck className="w-5 h-5 text-amber-400" />
-                </div>
-              </div>
+            <Link to="/" className="flex items-center space-x-3.5 group">
+              <img 
+                src="/ocp-icon.png" 
+                alt="OCP Logo" 
+                className="h-12 w-auto object-contain drop-shadow-[0_2px_8px_rgba(245,158,11,0.3)] group-hover:scale-105 transition-transform"
+              />
               <div>
-                <span className="text-xl font-black tracking-tight text-white font-mono">OCP</span>
-                <p className="text-[9px] uppercase tracking-wider font-semibold text-slate-400">Orient Consultant Pakistan</p>
+                <span className="text-2xl font-black tracking-tight text-white font-mono">OCP</span>
+                <p className="text-[10px] uppercase tracking-wider font-bold text-slate-300">Orient Consultant Pakistan</p>
               </div>
             </Link>
 
@@ -102,6 +102,7 @@ export default function Footer({ onOpenQuote }) {
               <li><Link to="/about" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>About Orient Consultant</span></Link></li>
               <li><Link to="/services" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>Consultancy & Training Services</span></Link></li>
               <li><Link to="/standards" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>17+ ISO Compliance Standards</span></Link></li>
+              <li><a href="/#audit-experience" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>Client Audit Preparation (25 Brands)</span></a></li>
               <li><Link to="/training" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>Corporate Training Courses</span></Link></li>
               <li><Link to="/clients" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>Valued Client Portfolio (32+)</span></Link></li>
               <li><Link to="/contact" className="hover:text-amber-400 transition-colors flex items-center space-x-2"><span>Contact Karachi Office</span></Link></li>

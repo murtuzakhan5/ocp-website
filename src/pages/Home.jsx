@@ -6,6 +6,7 @@ import {
   TrendingUp, Headphones, Layers
 } from 'lucide-react';
 import HoneycombCanvas from '../components/HoneycombCanvas';
+import AuditPreparationClients from '../components/AuditPreparationClients';
 import { 
   COMPANY_INFO, STANDARDS_DATA, CLIENTS_DATA, SERVICES_DATA, 
   TESTIMONIALS_DATA 
@@ -131,6 +132,10 @@ export default function Home({ onOpenQuote }) {
           })}
         </div>
       </section>
+
+
+      {/* NEW SECTION: CLIENT AUDIT PREPARATION EXPERIENCE (25 FMCG & PHARMA LEADERS) */}
+      <AuditPreparationClients onOpenQuote={onOpenQuote} />
 
 
       {/* SERVICES SUMMARY SECTION */}
