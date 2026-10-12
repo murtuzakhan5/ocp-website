@@ -7,8 +7,8 @@ export const COMPANY_INFO = {
   phone: "0317-2768613",
   phoneClean: "+923172768613",
   secondaryPhone: "0331-2058996",
-  emails: ["info@ocp.com", "sfarhan@ocpakistan.com"],
-  email: "info@ocp.com",
+  emails: ["info@orientconsultantpakistan.com", "sfarhan@orientconsultantpakistan.com"],
+  email: "info@orientconsultantpakistan.com",
   website: "www.ocpakistan.com",
   establishedYear: 2012,
   stats: {

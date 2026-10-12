@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import HoneycombCanvas from '../components/HoneycombCanvas';
 import AuditPreparationClients from '../components/AuditPreparationClients';
+import AnimatedCounter from '../components/AnimatedCounter';
 import { 
   COMPANY_INFO, STANDARDS_DATA, CLIENTS_DATA, SERVICES_DATA, 
   TESTIMONIALS_DATA 
@@ -104,10 +105,10 @@ export default function Home({ onOpenQuote }) {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { label: "Corporate Clients Certified", value: "32+", icon: Building2, desc: "Textiles, Packaging, Healthcare & Energy" },
-            { label: "ISO & Compliance Standards", value: "17+", icon: ShieldCheck, desc: "ISO 9001, 14001, 45001, Halal, FSC, SA8000" },
-            { label: "International Locations", value: "9+", icon: Globe, desc: "Pakistan, UAE, KSA, Qatar, Oman & Beyond" },
-            { label: "Corporate Audits & Trainings", value: "500+", icon: Award, desc: "Classroom, Mock Audits & Certifications" }
+            { label: "Corporate Clients Certified", end: 32, suffix: "+", icon: Building2, desc: "Textiles, Packaging, Healthcare & Energy" },
+            { label: "ISO & Compliance Standards", end: 17, suffix: "+", icon: ShieldCheck, desc: "ISO 9001, 14001, 45001, Halal, FSC, SA8000" },
+            { label: "International Locations", end: 9, suffix: "+", icon: Globe, desc: "Pakistan, UAE, KSA, Qatar, Oman & Beyond" },
+            { label: "Corporate Audits & Trainings", end: 500, suffix: "+", icon: Award, desc: "Classroom, Mock Audits & Certifications" }
           ].map((stat, idx) => {
             const IconComponent = stat.icon;
             return (
@@ -119,7 +120,7 @@ export default function Home({ onOpenQuote }) {
                   <IconComponent className="w-5 h-5" />
                 </div>
                 <div className="text-3xl sm:text-4xl font-extrabold text-white font-mono tracking-tight">
-                  {stat.value}
+                  <AnimatedCounter end={stat.end} suffix={stat.suffix} duration={1800} />
                 </div>
                 <div className="text-sm font-semibold text-amber-400 mt-1">
                   {stat.label}

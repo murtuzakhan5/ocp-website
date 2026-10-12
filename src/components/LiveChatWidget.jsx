@@ -16,7 +16,7 @@ export default function LiveChatWidget({ onOpenQuote }) {
   const [inputMsg, setInputMsg] = useState('');
 
   const targetPhone = "+923172768613";
-  const targetEmail = "info@ocp.com";
+  const targetEmail = "info@orientconsultantpakistan.com";
 
   const quickOptions = [
     '💬 Chat on WhatsApp',

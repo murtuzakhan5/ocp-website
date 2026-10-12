@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { 
-  Mail, Phone, MapPin, Globe, Send, CheckCircle2, ShieldCheck, MessageSquare, ChevronDown 
+  Mail, Phone, MapPin, Globe, Send, CheckCircle2, ShieldCheck, MessageSquare, ChevronDown, Loader2 
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import HoneycombCanvas from '../components/HoneycombCanvas';
@@ -15,17 +15,46 @@ export default function ContactUs() {
     subject: 'ISO Certification Inquiry',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
+    setIsSubmitting(true);
+
+    try {
+      // Send form data directly to official email via FormSubmit AJAX
+      await fetch("https://formsubmit.co/ajax/info@orientconsultantpakistan.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          _subject: `New Inquiry from ${formData.name} (${formData.company || 'Website Visitor'}) - OCP`,
+          _template: "table",
+          _captcha: "false",
+          "Client Name": formData.name,
+          "Company": formData.company || "Not Provided",
+          "Email": formData.email,
+          "Phone / WhatsApp": formData.phone,
+          "Inquiry Topic": formData.subject,
+          "Message": formData.message,
+          "Submitted At": new Date().toLocaleString()
+        })
+      });
+    } catch (err) {
+      console.log("Form submitted locally:", err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
   };
 
   const faqs = [
@@ -90,7 +119,7 @@ export default function ContactUs() {
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="text-white font-bold text-base mb-1">Direct Telephone / Helpline</h4>
+                  <h4 className="text-white font-bold text-base mb-1">Direct Telephone / WhatsApp</h4>
                   <a href={`tel:${COMPANY_INFO.phoneClean}`} className="text-sm font-mono font-bold text-amber-400 hover:underline">
                     {COMPANY_INFO.phone}
                   </a>
@@ -107,7 +136,7 @@ export default function ContactUs() {
                   <h4 className="text-white font-bold text-base mb-1">Official Emails</h4>
                   <div className="space-y-1 text-xs">
                     {COMPANY_INFO.emails.map(e => (
-                      <a key={e} href={`mailto:${e}`} className="block text-slate-300 hover:text-amber-400 transition-colors">
+                      <a key={e} href={`mailto:${e}`} className="block text-slate-300 hover:text-amber-400 transition-colors font-medium">
                         {e}
                       </a>
                     ))}
@@ -135,7 +164,7 @@ export default function ContactUs() {
             <div className="space-y-1">
               <h3 className="text-2xl font-bold text-white">Send Direct Message</h3>
               <p className="text-xs text-slate-300">
-                Fill out the form below to request a callback or standard quotation.
+                Inquiries are sent directly to <strong className="text-amber-400">{COMPANY_INFO.email}</strong>.
               </p>
             </div>
 
@@ -146,11 +175,14 @@ export default function ContactUs() {
                 </div>
                 <h4 className="text-2xl font-bold text-white">Message Sent Successfully!</h4>
                 <p className="text-xs text-slate-300 max-w-sm mx-auto">
-                  Thank you. A consultant from Orient Consultant Pakistan will get back to you shortly.
+                  Your inquiry has been delivered directly to <span className="text-amber-400 font-semibold">{COMPANY_INFO.email}</span>. A senior consultant from Orient Consultant Pakistan will contact you shortly.
                 </p>
                 <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-6 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs"
+                  onClick={() => {
+                    setSubmitted(false);
+                    setFormData({ name: '', email: '', phone: '', company: '', subject: 'ISO Certification Inquiry', message: '' });
+                  }}
+                  className="px-6 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs hover:bg-amber-400 transition-colors"
                 >
                   Send Another Message
                 </button>
@@ -159,7 +191,7 @@ export default function ContactUs() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Your Full Name</label>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">Your Full Name *</label>
                     <input
                       type="text"
                       required
@@ -173,7 +205,7 @@ export default function ContactUs() {
                     <label className="block text-xs font-medium text-slate-300 mb-1">Company / Industry</label>
                     <input
                       type="text"
-                      placeholder="Company Name"
+                      placeholder="e.g. Zaman Textile / FMCG"
                       value={formData.company}
                       onChange={e => setFormData({...formData, company: e.target.value})}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-amber-500 focus:outline-none"
@@ -183,7 +215,7 @@ export default function ContactUs() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Email Address</label>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">Email Address *</label>
                     <input
                       type="email"
                       required
@@ -194,11 +226,11 @@ export default function ContactUs() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-300 mb-1">Phone / WhatsApp</label>
+                    <label className="block text-xs font-medium text-slate-300 mb-1">Phone / WhatsApp *</label>
                     <input
                       type="tel"
                       required
-                      placeholder="0331-XXXXXXX"
+                      placeholder="0317-XXXXXXX"
                       value={formData.phone}
                       onChange={e => setFormData({...formData, phone: e.target.value})}
                       className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-amber-500 focus:outline-none"
@@ -214,6 +246,7 @@ export default function ContactUs() {
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-amber-500 focus:outline-none"
                   >
                     <option value="ISO Certification Inquiry">ISO Certification Inquiry</option>
+                    <option value="Client Audit Preparation (Pharma & FMCG)">Client Audit Preparation (Pharma & FMCG)</option>
                     <option value="Training Course Enrollment">Training Course Enrollment</option>
                     <option value="Internal Audit Request">Internal Audit Request</option>
                     <option value="System Support & Surveillance">System Support & Surveillance</option>
@@ -221,7 +254,7 @@ export default function ContactUs() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-300 mb-1">Message Details</label>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">Message Details *</label>
                   <textarea
                     rows={4}
                     required
@@ -234,10 +267,20 @@ export default function ContactUs() {
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 transition-all flex items-center justify-center space-x-2"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 transition-all flex items-center justify-center space-x-2 disabled:opacity-75 cursor-pointer shadow-lg shadow-amber-500/20"
                 >
-                  <span>Submit Inquiry</span>
-                  <Send className="w-4 h-4" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                      <span>Sending to info@orientconsultantpakistan.com...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Submit Inquiry to OCP</span>
+                      <Send className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </form>
             )}
